@@ -36,7 +36,7 @@ class CreateOrdersTable extends Migration
                 $table->string('club_name');
                 $table->enum(
                     'status_at_factory',
-                    ['In-Progress', 'Half-completed-Shipped', 'Completed-Shipped']
+                    ['In-Progress', 'Half-completed', 'Completed']
                 )->nullable()->default("Pending");
                 $table->softDeletes();
                 $table->timestamps();
