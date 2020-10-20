@@ -27,8 +27,10 @@ class OrderController extends Controller
     public function updateStatus(OrderStatusRequest $request, $merchOrderId)
     {
         $order = Order::with('items')->where("merch_order_id", $merchOrderId)->first();
-        $order->update(['status_at_factory' => $request->status]);
-        $order->save();
+        if ($order->status_at_factory == "Completed-Shipped") {
+            $order->update(['status_at_factory' => $request->status]);
+            $order->save();
+        }
         return new OrderResource($order);
     }
 

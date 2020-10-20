@@ -34,7 +34,10 @@ class CreateOrdersTable extends Migration
                 $table->string('customer_email');
                 $table->string('event_name');
                 $table->string('club_name');
-                $table->enum('status_at_factory', ['Pending','In-Progress','Half-completed','Completed','Shipped'])->nullable()->default("Pending");
+                $table->enum(
+                    'status_at_factory',
+                    ['In-Progress', 'Half-completed-Shipped', 'Completed-Shipped']
+                )->nullable()->default("Pending");
                 $table->softDeletes();
                 $table->timestamps();
             }
