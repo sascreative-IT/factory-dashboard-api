@@ -37,7 +37,7 @@ class CreateOrdersTable extends Migration
                 $table->enum(
                     'status_at_factory',
                     ['In-Progress', 'Half-completed', 'Completed']
-                )->nullable()->default("Pending");
+                )->nullable()->default("In-Progress");
                 $table->softDeletes();
                 $table->timestamps();
             }
