@@ -27,9 +27,9 @@ class CreateOrdersTable extends Migration
                 $table->boolean('status');
                 $table->boolean('is_active');
                 $table->string('pickup_store')->nullable();
-                $table->string('shipping_address');
-                $table->string('billing_address');
-                $table->string('grade');
+                $table->string('shipping_address')->nullable();
+                $table->string('billing_address')->nullable();
+                $table->string('grade')->nullable();
                 $table->string('customer_name');
                 $table->string('customer_email');
                 $table->string('event_name');
