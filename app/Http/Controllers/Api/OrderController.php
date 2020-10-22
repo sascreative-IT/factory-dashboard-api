@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function show($merchOrderId)
     {
-        return new OrderResource(Order::with('items','comments')->where("merch_order_id", $merchOrderId)->first());
+        return new OrderResource(Order::with('items', 'comments')->where("merch_order_id", $merchOrderId)->first());
     }
 
 
@@ -46,8 +46,25 @@ class OrderController extends Controller
             ]
         );
         $order->save();
-        $orderWithComments = Order::with('items','comments')->where("merch_order_id", $merchOrderId)->first();
+        $orderWithComments = Order::with('items', 'comments')->where("merch_order_id", $merchOrderId)->first();
         return new OrderResource($orderWithComments);
+    }
+
+    public function update(Request $request, $merchOrderId)
+    {
+        $enabled_for_warehouse = $request->enabled_for_warehouse;
+        Order::where("merch_order_id", $merchOrderId)->first()->update(
+            ['enabled_for_warehouse' => $enabled_for_warehouse]
+        );
+        return new OrderResource(Order::where("merch_order_id", $merchOrderId)->first());
+    }
+
+    public function searchWarehouseOrder($merchOrderId)
+    {
+        $orderInfo = Order::with('items', 'comments')
+            ->where("enabled_for_warehouse", "Yes")
+            ->where("merch_order_id", $merchOrderId)->first();
+        return new OrderResource($orderInfo);
     }
 
 }

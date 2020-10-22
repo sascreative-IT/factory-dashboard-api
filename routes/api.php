@@ -1,11 +1,34 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\OrderController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/orders', [OrderController::class, 'index'])->name("orders.index");
 Route::get('/orders/{merchOrderId}', [OrderController::class, 'show'])->name("orders.show");
 Route::put('/orders/{merchOrderId}', [OrderController::class, 'updateStatus'])->name("orders.updateStatus");
 Route::post('/orders/comments', [OrderController::class, 'addComment'])->name("orders.comments.create");
+Route::patch('/orders/{merchOrderId}', [OrderController::class, 'update'])->name("orders.update");
+Route::get('/orders/search-warehouse-order/{merchOrderId}', [OrderController::class, 'searchWarehouseOrder'])->name("orders.show.warehouse");
+
+// update order items...
+Route::put('/order-items/update-item-type/{id}', [OrderItemController::class, 'updateItemType'])->name(
+    "order-items.update-item-type"
+);
+Route::put('/order-items/update-supplier/{id}', [OrderItemController::class, 'updateSupplier'])->name(
+    "order-items.update-update-supplier"
+);
+Route::put(
+    '/order-items/update-embellishment-supplier/{id}',
+    [OrderItemController::class, 'updateEmbellishmentSupplier']
+)->name("order-items.update-embellishment-supplier");
+
+Route::put('/order-items/update-supplier-status/{id}', [OrderItemController::class, 'updateSupplierStatus'])->name(
+    "order-items.update-update-supplier-status"
+);
+
+Route::put('/order-items/update-embellishment-status/{id}', [OrderItemController::class, 'updateEmbellishmentStatus'])->name(
+    "order-items.update-update-embellishment-status"
+);
 
