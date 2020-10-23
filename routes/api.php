@@ -3,9 +3,11 @@
 use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SupplierController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+Route::post('/login', [AuthController::class, 'login'])->name("user.login");
 Route::get('/orders', [OrderController::class, 'index'])->name("orders.index");
 Route::get('/orders/{merchOrderId}', [OrderController::class, 'show'])->name("orders.show");
 Route::put('/orders/{merchOrderId}', [OrderController::class, 'updateStatus'])->name("orders.updateStatus");
