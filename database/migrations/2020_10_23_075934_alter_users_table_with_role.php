@@ -14,7 +14,7 @@ class AlterUsersTableWithRole extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role',['Administrator','CS','Factory','WH'])->nullable();
+            $table->enum('department',['Administrator','CS','Factory','WH'])->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AlterUsersTableWithRole extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
+            $table->dropColumn('department');
         });
     }
 }
