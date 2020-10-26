@@ -39,6 +39,7 @@ class AlterOrderItemsTablesWithItemType extends Migration
                 $table->dropColumn('item_type');
                 $table->dropColumn('supplier');
                 $table->dropColumn('embellishment_supplier');
+                $table->dropColumn('factory_status');
             }
         );
     }
