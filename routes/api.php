@@ -35,5 +35,9 @@ Route::put('/order-items/update-embellishment-status/{id}', [OrderItemController
     "order-items.update-update-embellishment-status"
 );
 
+Route::put('/order-items/update-factory-status/{id}', [OrderItemController::class, 'updateFactoryStatus'])->name(
+    "order-items.update-factory-status"
+);
+
 Route::get('/suppliers', [SupplierController::class, 'index'])->name("suppliers.index");
 Route::get('/embellishment-suppliers', [SupplierController::class, 'embellishmentSuppliers'])->name("suppliers.embellishment-suppliers");

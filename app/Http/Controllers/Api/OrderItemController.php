@@ -39,4 +39,10 @@ class OrderItemController extends Controller
         OrderItem::find($itemId)->update(["embellishment_status" => $request->embellishment_status]);
         return new OrderItemResource(OrderItem::find($itemId));
     }
+
+    public function updateFactoryStatus(Request $request, $itemId)
+    {
+        OrderItem::find($itemId)->update(["factory_status" => $request->factory_status]);
+        return new OrderItemResource(OrderItem::find($itemId));
+    }
 }
