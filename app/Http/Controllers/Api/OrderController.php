@@ -49,7 +49,7 @@ class OrderController extends Controller
         );
         $order->save();
         $orderId = $order->id;
-        $comment = OrderComments::where("order_id", $orderId)->last();
+        $comment = OrderComments::where("order_id", $orderId)->latest()->first();
         return new CommentResource($comment);
     }
 
