@@ -8,7 +8,9 @@ use App\Http\Resources\Order as OrderResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderCollection;
 use App\Models\Order;
+use App\Models\OrderComments;
 use Illuminate\Http\Request;
+use App\Http\Resources\Comment as CommentResource;
 
 class OrderController extends Controller
 {
@@ -46,8 +48,9 @@ class OrderController extends Controller
             ]
         );
         $order->save();
-        $orderWithComments = Order::with('items', 'comments')->where("merch_order_id", $merchOrderId)->first();
-        return new OrderResource($orderWithComments);
+        $orderId = $order->id;
+        $comment = OrderComments::where("order_id", $orderId)->last();
+        return new CommentResource($comment);
     }
 
     public function update(Request $request, $merchOrderId)
