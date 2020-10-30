@@ -13,6 +13,9 @@ class OrderItemController extends Controller
     public function updateItemType(Request $request, $id)
     {
         OrderItem::find($id)->update(["item_type" => $request->item_type]);
+        if ($request->item_type == "Factory") {
+            OrderItem::find($id)->update(["supplier" => null,"embellishment_supplier"=>null]);
+        }
         return new OrderItemResource(OrderItem::find($id));
     }
 
