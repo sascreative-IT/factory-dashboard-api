@@ -119,7 +119,10 @@ class PullOrdersFromMerch extends Command
                     'customer_name' => $customer_name,
                     'customer_email' => $customer_email,
                     'event_name' => $event_title,
-                    'club_name' => $club_title
+                    'club_name' => $club_title,
+                    'delivery_no' => $order->id."-".rand(100,1000),
+                    'job_no' => $order->id.rand(100,1000),
+                    'order_date' => $order->created_at
                 ];
                 $new_order_record = Order::create(
                     $order_data
