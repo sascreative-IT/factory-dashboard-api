@@ -14,6 +14,7 @@ Route::put('/orders/{merchOrderId}', [OrderController::class, 'updateStatus'])->
 Route::post('/orders/comments', [OrderController::class, 'addComment'])->name("orders.comments.create");
 Route::patch('/orders/{merchOrderId}', [OrderController::class, 'update'])->name("orders.update");
 Route::get('/orders/search-warehouse-order/{merchOrderId}', [OrderController::class, 'searchWarehouseOrder'])->name("orders.show.warehouse");
+Route::put('/orders/update-delivery-date/{merchOrderId}', [OrderController::class, 'updateDeliveryDate'])->name("orders.updateDeliveryDate");
 
 // update order items...
 Route::put('/order-items/update-item-type/{id}', [OrderItemController::class, 'updateItemType'])->name(

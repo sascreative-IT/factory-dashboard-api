@@ -18,10 +18,10 @@ class AlterOrderItemsTablesWithItemType extends Migration
             function (Blueprint $table) {
                 $table->enum('item_type', ['Local', 'Factory'])->nullable()->default(null);
                 $table->string('supplier')->nullable();
-                $table->enum('supplier_status',['Received','Pending','Half Received'])->nullable();
+                $table->enum('supplier_status',['Received','Pending','Half Received','Completed'])->nullable();
                 $table->string('embellishment_supplier')->nullable();
-                $table->enum('embellishment_status',['Sent To Embellisher','Pending','Received','Half Received'])->nullable();
-                $table->enum('factory_status',['Half Received','Received'])->nullable();
+                $table->enum('embellishment_status',['Sent To Embellisher','Pending','Received','Half Received','Completed'])->nullable();
+                $table->enum('factory_status',['Half Received','Received','Completed'])->nullable();
             }
         );
     }
