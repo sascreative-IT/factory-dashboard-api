@@ -9,4 +9,11 @@ class OrderItem extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    protected $with = ['order_item_variations'];
+
+    public function order_item_variations()
+    {
+        return $this->hasMany(OrderItemVariation::class);
+    }
 }
