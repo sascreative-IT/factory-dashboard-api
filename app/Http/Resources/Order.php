@@ -22,7 +22,6 @@ class Order extends JsonResource
             if ($orderItem->order_item_variations) {
                 foreach ($orderItem->order_item_variations as $order_item_variation) {
                     foreach ($order_item_variation->order_item_variation_values as $order_item_variation_value) {
-
                         if ($order_item_variation_value->attribute_name == "Size") {
                             if (array_key_exists(
                                 $order_item_variation_value->attribute_value_name,
