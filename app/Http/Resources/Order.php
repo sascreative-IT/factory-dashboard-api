@@ -88,7 +88,8 @@ class Order extends JsonResource
             "job_no" => $this->job_no,
             "order_date" => $this->order_date,
             "delivery_date" => $this->delivery_date,
-            "items" => $orderItems
+            "items" => $orderItems,
+            "comments" => $this->comments
         ];
     }
 }
