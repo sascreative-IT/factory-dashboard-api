@@ -70,11 +70,20 @@ class OrderController extends Controller
         return new OrderResource($orderInfo);
     }
 
-    public function updateDeliveryDate(Request $request, $merchOrderId)
+    public function updateDeliveryStatus(Request $request, $merchOrderId)
     {
         $order = Order::where("merch_order_id", $merchOrderId)->first();
-        $order->update(['delivery_date' => $request->delivery_date]);
+        $order->update(['delivery_status' => $request->delivery_status, 'store_name' => $request->store_name]);
         $order->save();
         return new OrderResource($order);
     }
+
+    public function updateOrderStatus(Request $request, $merchOrderId)
+    {
+        $order = Order::where("merch_order_id", $merchOrderId)->first();
+        $order->update(['order_status' => $request->order_status]);
+        $order->save();
+        return new OrderResource($order);
+    }
+
 }
