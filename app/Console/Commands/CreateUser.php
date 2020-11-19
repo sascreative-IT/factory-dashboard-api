@@ -45,7 +45,7 @@ class CreateUser extends Command
         $userPassword = $this->_generatePassword();
         $department = $this->choice(
             "Choose a department ?",
-            ['CS', 'Factory', 'WH', 'Administrator'],
+            ['CS', 'Factory', 'WH', 'Shop','Administrator'],
             0,
             $maxAttempts = null,
             $allowMultipleSelections = false
