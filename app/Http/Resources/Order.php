@@ -92,7 +92,37 @@ class Order extends JsonResource
             "store_name" => $this->store_name,
             "order_status" => $this->order_status,
             "items" => $orderItems,
-            "comments" => $this->comments
+            "comments" => $this->comments,
+            "audits" => [
+                'CS' => $this->audits->filter(function($item)
+                {
+                    if($item->tags == 'CS')
+                    {
+                        return $item;
+                    }
+                })->toArray(),
+                'Factory' => $this->audits->filter(function($item)
+                {
+                    if($item->tags == 'Factory')
+                    {
+                        return $item;
+                    }
+                })->toArray(),
+                'WH' => $this->audits->filter(function($item)
+                {
+                    if($item->tags == 'WH')
+                    {
+                        return $item->toArray();
+                    }
+                })->toArray(),
+                'Shop' => $this->audits->filter(function($item)
+                {
+                    if($item->tags == 'Shop')
+                    {
+                        return $item->toArray();
+                    }
+                })->toArray()
+            ],
         ];
     }
 }
