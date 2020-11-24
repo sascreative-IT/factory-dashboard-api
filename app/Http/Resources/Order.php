@@ -63,6 +63,7 @@ class Order extends JsonResource
             );
         }
 
+
         return [
             "id" => $this->id,
             "merch_order_id" => $this->merch_order_id,
@@ -94,32 +95,32 @@ class Order extends JsonResource
             "items" => $orderItems,
             "comments" => $this->comments,
             "audits" => [
-                'CS' => $this->audits->filter(function($item)
+                'CS' => $this->audits()->with('user')->get()->filter(function($item)
                 {
                     if($item->tags == 'CS')
                     {
                         return $item;
                     }
                 })->toArray(),
-                'Factory' => $this->audits->filter(function($item)
+                'Factory' => $this->audits()->with('user')->get()->filter(function($item)
                 {
                     if($item->tags == 'Factory')
                     {
-                        return $item;
+                        return true;
                     }
                 })->toArray(),
-                'WH' => $this->audits->filter(function($item)
+                'WH' => $this->audits()->with('user')->get()->filter(function($item)
                 {
                     if($item->tags == 'WH')
                     {
-                        return $item->toArray();
+                        return true;
                     }
                 })->toArray(),
-                'Shop' => $this->audits->filter(function($item)
+                'Shop' => $this->audits()->with('user')->get()->filter(function($item)
                 {
                     if($item->tags == 'Shop')
                     {
-                        return $item->toArray();
+                        return true;
                     }
                 })->toArray()
             ],
