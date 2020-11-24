@@ -13,10 +13,20 @@ Route::get('/orders/{merchOrderId}', [OrderController::class, 'show'])->name("or
 Route::put('/orders/{merchOrderId}', [OrderController::class, 'updateStatus'])->name("orders.updateStatus");
 Route::post('/orders/comments', [OrderController::class, 'addComment'])->name("orders.comments.create");
 Route::patch('/orders/{merchOrderId}', [OrderController::class, 'update'])->name("orders.update");
-Route::get('/orders/search-warehouse-order/{merchOrderId}', [OrderController::class, 'searchWarehouseOrder'])->name("orders.show.warehouse");
-Route::put('/orders/update-delivery-date/{merchOrderId}', [OrderController::class, 'updateDeliveryDate'])->name("orders.updateDeliveryDate");
-Route::put('/orders/update-delivery-status/{merchOrderId}', [OrderController::class, 'updateDeliveryStatus'])->name("orders.updateDeliveryStatus");
-Route::put('/orders/update-order-status/{merchOrderId}', [OrderController::class, 'updateOrderStatus'])->name("orders.updateOrderStatus");
+Route::get(
+    '/orders/search-warehouse-order/{merchOrderId}',
+    [OrderController::class, 'searchWarehouseOrder']
+)->name("orders.show.warehouse");
+Route::put('/orders/update-delivery-date/{merchOrderId}', [OrderController::class, 'updateDeliveryDate'])->name(
+    "orders.updateDeliveryDate"
+);
+Route::put(
+    '/orders/update-delivery-status/{merchOrderId}',
+    [OrderController::class, 'updateDeliveryStatus']
+)->name("orders.updateDeliveryStatus");
+Route::put('/orders/update-order-status/{merchOrderId}', [OrderController::class, 'updateOrderStatus'])->name(
+    "orders.updateOrderStatus"
+);
 
 // update order items...
 Route::put('/order-items/update-item-type/{id}', [OrderItemController::class, 'updateItemType'])->name(
@@ -30,17 +40,39 @@ Route::put(
     [OrderItemController::class, 'updateEmbellishmentSupplier']
 )->name("order-items.update-embellishment-supplier");
 
-Route::put('/order-items/update-supplier-status/{id}', [OrderItemController::class, 'updateSupplierStatus'])->name(
+Route::put(
+    '/order-items/update-supplier-status/{id}',
+    [OrderItemController::class, 'updateSupplierStatus']
+)->name(
     "order-items.update-update-supplier-status"
 );
 
-Route::put('/order-items/update-embellishment-status/{id}', [OrderItemController::class, 'updateEmbellishmentStatus'])->name(
+Route::put(
+    '/order-items/update-embellishment-status/{id}',
+    [OrderItemController::class, 'updateEmbellishmentStatus']
+)->name(
     "order-items.update-update-embellishment-status"
 );
 
-Route::put('/order-items/update-factory-status/{id}', [OrderItemController::class, 'updateFactoryStatus'])->name(
+Route::put(
+    '/order-items/update-factory-status/{id}',
+    [OrderItemController::class, 'updateFactoryStatus']
+)->name(
     "order-items.update-factory-status"
 );
 
 Route::get('/suppliers', [SupplierController::class, 'index'])->name("suppliers.index");
-Route::get('/embellishment-suppliers', [SupplierController::class, 'embellishmentSuppliers'])->name("suppliers.embellishment-suppliers");
+Route::get('/embellishment-suppliers', [SupplierController::class, 'embellishmentSuppliers'])->name(
+    "suppliers.embellishment-suppliers"
+);
+
+
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::put('/orders/test-update-order-status/{merchOrderId}', [OrderController::class, 'updateOrderStatus'])->name(
+            "orders.updateOrderStatus"
+        );
+    }
+
+);
+
