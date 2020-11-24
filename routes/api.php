@@ -70,7 +70,7 @@ Route::get('/embellishment-suppliers', [SupplierController::class, 'embellishmen
 Route::middleware('auth:sanctum')->group(
     function () {
         Route::put('/orders/test-update-order-status/{merchOrderId}', [OrderController::class, 'updateOrderStatus'])->name(
-            "orders.updateOrderStatus"
+            "orders.testUpdateOrderStatus"
         );
     }
 
