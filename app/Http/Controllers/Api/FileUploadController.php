@@ -16,7 +16,7 @@ class FileUploadController extends Controller
     {
         try {
             $file = $request->file('file');
-            $order = Order::where("merch_order_id", 1000)->first();
+            $order = Order::where("merch_order_id", $request->merch_order_id)->first();
 
             $file_name = $order->id . "-" . trim(str_replace(" ", "_", $file->getClientOriginalName()));
             Storage::disk('public')->put($file_name, File::get($file));
@@ -30,7 +30,7 @@ class FileUploadController extends Controller
         return response()->json(
             [
                 'path' => $file_name,
-                'message' => 'Successfully updated event media!'
+                'message' => 'The PO has been uploaded successfully'
             ],
             200
         );
