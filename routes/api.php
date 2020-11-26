@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\OrderItemVariationController;
 use App\Http\Controllers\Api\OrderItemController;
+use App\Http\Controllers\Api\FileUploadController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\AuthController;
@@ -91,6 +92,13 @@ Route::middleware('auth:sanctum')->group(
             [OrderItemVariationController::class, 'updateDeliveredQty']
         )->name(
             "order-item.variation.update-delivered-qty"
+        );
+
+        Route::post(
+            '/orders/upload-order-po',
+            [FileUploadController::class, 'uploadPoFile']
+        )->name(
+            "orders.upload-po-file"
         );
     }
 

@@ -96,6 +96,7 @@ class Order extends JsonResource
             "delivery_status" => $this->delivery_status,
             "store_name" => $this->store_name,
             "order_status" => $this->order_status,
+            "po" => $this->po,
             "items" => $orderItems,
             "comments" => $this->comments,
             "audits" => [
