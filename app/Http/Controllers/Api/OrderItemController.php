@@ -14,7 +14,7 @@ class OrderItemController extends Controller
     {
         OrderItem::find($id)->update(["item_type" => $request->item_type]);
         if ($request->item_type == "Factory") {
-            OrderItem::find($id)->update(["supplier" => null,"embellishment_supplier"=>null]);
+            OrderItem::find($id)->update(["supplier" => null, "embellishment_supplier" => null]);
         }
         return new OrderItemResource(OrderItem::find($id));
     }
@@ -48,4 +48,11 @@ class OrderItemController extends Controller
         OrderItem::find($itemId)->update(["factory_status" => $request->factory_status]);
         return new OrderItemResource(OrderItem::find($itemId));
     }
+
+    public function updateDeliveredQty(Request $request, $itemId)
+    {
+        OrderItem::find($itemId)->update(["delivered_qty" => $request->delivered_qty]);
+        return new OrderItemResource(OrderItem::find($itemId));
+    }
+
 }

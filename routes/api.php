@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OrderItemVariationController;
 use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SupplierController;
@@ -69,8 +70,27 @@ Route::get('/embellishment-suppliers', [SupplierController::class, 'embellishmen
 
 Route::middleware('auth:sanctum')->group(
     function () {
-        Route::put('/orders/test-update-order-status/{merchOrderId}', [OrderController::class, 'updateOrderStatus'])->name(
+
+        Route::put(
+            '/orders/test-update-order-status/{merchOrderId}',
+            [OrderController::class, 'updateOrderStatus']
+        )->name(
             "orders.testUpdateOrderStatus"
+        );
+
+
+        Route::put(
+            '/order-items/update-delivered-qty/{id}',
+            [OrderItemController::class, 'updateDeliveredQty']
+        )->name(
+            "order-items.update-delivered-qty"
+        );
+
+        Route::put(
+            '/order-item-variation/update-delivered-qty/{id}',
+            [OrderItemVariationController::class, 'updateDeliveredQty']
+        )->name(
+            "order-item.variation.update-delivered-qty"
         );
     }
 

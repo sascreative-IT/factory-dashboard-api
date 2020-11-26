@@ -28,11 +28,14 @@ class Order extends JsonResource
                                 $order_item_variation_values
                             )) {
                                 $order_item_variation_values[$order_item_variation_value->attribute_value_name]["qty"] = $order_item_variation_values[$order_item_variation_value->attribute_value_name]["qty"] + $order_item_variation_value->qty;
+                                $order_item_variation_values[$order_item_variation_value->attribute_value_name]["delivered_qty"] = $order_item_variation_values[$order_item_variation_value->attribute_value_name]["delivered_qty"] + $order_item_variation_value->delivered_qty;
                             } else {
                                 $order_item_variation_values[$order_item_variation_value->attribute_value_name] = [
+                                    "id" => $order_item_variation_value->id,
                                     "attribute_name" => $order_item_variation_value->attribute_name,
                                     "attribute_value_name" => $order_item_variation_value->attribute_value_name,
                                     "qty" => $order_item_variation_value->qty,
+                                    "delivered_qty" => $order_item_variation_value->delivered_qty
                                 ];
                             }
                         }
@@ -47,6 +50,7 @@ class Order extends JsonResource
                 [
                     "id" => $orderItem->id,
                     "quantity" => $orderItem->quantity,
+                    "delivered_qty" => $orderItem->delivered_qty,
                     "product_code" => $orderItem->product_code,
                     "product_title" => $orderItem->product_title,
                     "product_price" => $orderItem->product_price,
