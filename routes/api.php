@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(
             "orders.updateOrderStatus"
         );
 
-// update order items...
+
         Route::put('/order-items/update-item-type/{id}', [OrderItemController::class, 'updateItemType'])->name(
             "order-items.update-item-type"
         );
@@ -69,16 +69,6 @@ Route::middleware('auth:sanctum')->group(
         Route::get('/embellishment-suppliers', [SupplierController::class, 'embellishmentSuppliers'])->name(
             "suppliers.embellishment-suppliers"
         );
-
-
-        /*
-        Route::put(
-            '/orders/test-update-order-status/{merchOrderId}',
-            [OrderController::class, 'updateOrderStatus']
-        )->name(
-            "orders.testUpdateOrderStatus"
-        );
-        */
 
 
         Route::put(
