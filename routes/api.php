@@ -71,12 +71,14 @@ Route::middleware('auth:sanctum')->group(
         );
 
 
+        /*
         Route::put(
             '/orders/test-update-order-status/{merchOrderId}',
             [OrderController::class, 'updateOrderStatus']
         )->name(
             "orders.testUpdateOrderStatus"
         );
+        */
 
 
         Route::put(
