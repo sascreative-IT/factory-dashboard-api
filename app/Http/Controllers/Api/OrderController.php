@@ -86,4 +86,11 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
+    public function updateDeliveryDate(Request $request, $merchOrderId){
+        $order = Order::where("merch_order_id", $merchOrderId)->first();
+        $order->update(['delivery_date' => $request->delivery_date]);
+        $order->save();
+        return new OrderResource($order);
+    }
+
 }
