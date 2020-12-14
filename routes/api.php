@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 Route::post('/login', [AuthController::class, 'login'])->name("user.login");
 Route::middleware('auth:sanctum')->group(
     function () {
+        Route::get('/user', [AuthController::class, 'user'])->name("user.user");
         Route::get('/orders', [OrderController::class, 'index'])->name("orders.index");
         Route::get('/orders/{merchOrderId}', [OrderController::class, 'show'])->name("orders.show");
         Route::put('/orders/{merchOrderId}', [OrderController::class, 'updateStatus'])->name("orders.updateStatus");
