@@ -14,7 +14,7 @@ class PullOrdersFromMerch extends Command
      *
      * @var string
      */
-    protected $signature = 'pull-orders:merch {from : The from Order ID} {to? : The to Order ID}';
+    protected $signature = 'pull-orders:merch {from? : The from Order ID} {to? : The to Order ID}';
 
     /**
      * The console command description.
@@ -42,6 +42,11 @@ class PullOrdersFromMerch extends Command
     {
         $orderIdFrom = $this->argument('from');
         $orderIdTo = $this->argument('to');
+
+        if ($orderIdFrom == "") {
+            $lastOrder = Order::latest()->first();
+            $orderIdFrom = $lastOrder->merch_order_id;
+        }
 
         $orders_sql = "SELECT * FROM orders WHERE id >= $orderIdFrom";
         if ($orderIdTo) {
