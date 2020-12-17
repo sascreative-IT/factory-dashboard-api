@@ -56,15 +56,16 @@ class OrderController extends Controller
 
     public function update(Request $request, $merchOrderId)
     {
-        $enabled_for_warehouse = $request->enabled_for_warehouse;
-        $order =  Order::where("merch_order_id", $merchOrderId)->first();
-        if($order->po == "") {
-            return response()->json(['data' => "The PO can not be empty."],Response::HTTP_BAD_REQUEST);
+        $order = Order::where("merch_order_id", $merchOrderId)->first();
+        if ($order->po == "") {
+            return response()->json(['data' => "The PO can not be empty."], Response::HTTP_BAD_REQUEST);
         }
+
+        $enabled_for_warehouse = $request->enabled_for_warehouse;
         $order->update(
             ['enabled_for_warehouse' => $enabled_for_warehouse]
         );
-        return new OrderResource(Order::where("merch_order_id", $merchOrderId)->first());
+        return new OrderResource($order);
     }
 
     public function searchWarehouseOrder($merchOrderId)
@@ -91,7 +92,8 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
-    public function updateDeliveryDate(Request $request, $merchOrderId){
+    public function updateDeliveryDate(Request $request, $merchOrderId)
+    {
         $order = Order::where("merch_order_id", $merchOrderId)->first();
         $order->update(['delivery_date' => $request->delivery_date]);
         $order->save();
