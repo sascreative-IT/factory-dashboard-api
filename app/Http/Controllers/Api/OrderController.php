@@ -61,6 +61,21 @@ class OrderController extends Controller
             return response()->json(['data' => "The PO can not be empty."], Response::HTTP_BAD_REQUEST);
         }
 
+        if ($order->delivery_date == "") {
+            return response()->json(['data' => "The delivery date can not be empty."], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($order->items) {
+            foreach ($order->items as $index => $item) {
+                if ($item->item_type == "") {
+                    return response()->json(
+                        ['data' => "The item type can not be empty for $item->product_code."],
+                        Response::HTTP_BAD_REQUEST
+                    );
+                }
+            }
+        }
+
         $enabled_for_warehouse = $request->enabled_for_warehouse;
         $order->update(
             ['enabled_for_warehouse' => $enabled_for_warehouse]
