@@ -73,6 +73,20 @@ class OrderController extends Controller
                         Response::HTTP_BAD_REQUEST
                     );
                 }
+
+                if ($item->supplier == "") {
+                    return response()->json(
+                        ['data' => "The item supplier can not be empty for $item->product_code."],
+                        Response::HTTP_BAD_REQUEST
+                    );
+                }
+
+                if ($item->embellishment_supplier == "") {
+                    return response()->json(
+                        ['data' => "The item embellishment supplier can not be empty for $item->product_code."],
+                        Response::HTTP_BAD_REQUEST
+                    );
+                }
             }
         }
 
