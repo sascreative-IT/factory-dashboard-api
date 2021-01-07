@@ -14,7 +14,7 @@ class AlterTableOrdersModifyCommentsColumn extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->text('comment')->nullable();
+            $table->text('comment')->nullable()->change();
         });
     }
 
@@ -26,7 +26,7 @@ class AlterTableOrdersModifyCommentsColumn extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('comment')->nullable();
+            $table->string('comment')->nullable()->change();
         });
     }
 }
