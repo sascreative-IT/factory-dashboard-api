@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderCollection;
 use App\Models\Order;
 use App\Models\OrderComments;
+use App\Models\OrderDeliveryHistory;
 use Illuminate\Http\Request;
 use App\Http\Resources\Comment as CommentResource;
 use Illuminate\Http\Response;
@@ -110,8 +111,26 @@ class OrderController extends Controller
     public function updateDeliveryStatus(Request $request, $merchOrderId)
     {
         $order = Order::where("merch_order_id", $merchOrderId)->first();
-        $order->update(['delivery_status' => $request->delivery_status, 'store_name' => $request->store_name]);
+        $order->update(
+            [
+                'delivery_status' => $request->delivery_status,
+                'store_name' => $request->store_name,
+                'no_of_boxes_delivered' => $request->no_of_boxes_delivered,
+            ]
+        );
         $order->save();
+
+        OrderDeliveryHistory::create(
+            [
+                'order_id' => $order->id,
+                'delivery_date' => $order->delivery_date,
+                'delivery_status' => $request->delivery_status,
+                'store_name' => $request->store_name,
+                'no_of_boxes_delivered' => $request->no_of_boxes_delivered,
+
+            ]
+        );
+
         return new OrderResource($order);
     }
 

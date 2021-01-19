@@ -23,6 +23,11 @@ class Order extends Model implements Auditable
         return $this->hasMany(OrderComments::class);
     }
 
+    public function deliveryHistory()
+    {
+        return $this->hasMany(OrderDeliveryHistory::class);
+    }
+
     public function generateTags(): array
     {
         if (isset(Auth::user()->department)) {

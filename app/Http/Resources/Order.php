@@ -95,10 +95,12 @@ class Order extends JsonResource
             "delivery_date" => $this->delivery_date,
             "delivery_status" => $this->delivery_status,
             "store_name" => $this->store_name,
+            "no_of_boxes_delivered" => $this->no_of_boxes_delivered,
             "order_status" => $this->order_status,
             "po" => $this->po,
             "items" => $orderItems,
             "comments" => $this->comments,
+            "delivery_histories" => $this->deliveryHistory,
             "audits" => [
                 'CS' => $this->audits()->with('user')->get()->filter(function($item)
                 {
