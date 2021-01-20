@@ -20,6 +20,18 @@ class Order extends JsonResource
             $order_item_variations = [];
             $order_item_variation_values = [];
             if ($orderItem->order_item_variations) {
+                $other_attributes = [];
+                foreach ($orderItem->order_item_variations as $order_item_variation) {
+                    $size_name = 'default';
+                    foreach ($order_item_variation->order_item_variation_values as $order_item_variation_value) {
+                        if ($order_item_variation_value->attribute_name == "Size") {
+                            $size_name = $order_item_variation_value->attribute_value_name;
+                        } else {
+                            $other_attributes[$size_name][$order_item_variation_value->attribute_name][] = $order_item_variation_value->attribute_value_name;
+                        }
+                    }
+                }
+
                 foreach ($orderItem->order_item_variations as $order_item_variation) {
                     foreach ($order_item_variation->order_item_variation_values as $order_item_variation_value) {
                         if ($order_item_variation_value->attribute_name == "Size") {
@@ -37,11 +49,24 @@ class Order extends JsonResource
                                     "qty" => $order_item_variation_value->qty,
                                     "delivered_qty" => $order_item_variation_value->delivered_qty
                                 ];
+
+                                if (isset($other_attributes[$order_item_variation_value->attribute_value_name])) {
+                                    $order_item_variation_values[$order_item_variation_value->attribute_value_name]['other_attributes'] = $other_attributes[$order_item_variation_value->attribute_value_name];
+                                } else {
+                                    $order_item_variation_values[$order_item_variation_value->attribute_value_name]['other_attributes'] = null;
+                                }
                             }
                         }
                     }
                 }
+
+                if (isset($other_attributes['default'])) {
+                    $order_item_variation_values['default'] = $other_attributes;
+                }
+
             }
+
+
 
             $order_item_variations = array_values($order_item_variation_values);
 
