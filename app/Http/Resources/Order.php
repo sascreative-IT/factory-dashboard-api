@@ -27,7 +27,13 @@ class Order extends JsonResource
                         if ($order_item_variation_value->attribute_name == "Size") {
                             $size_name = $order_item_variation_value->attribute_value_name;
                         } else {
-                            $other_attributes[$size_name][$order_item_variation_value->attribute_name][] = $order_item_variation_value->attribute_value_name;
+                            $other_attributes[$size_name][preg_replace(
+                                '/\W+/',
+                                '_',
+                                strtolower(
+                                    $order_item_variation_value->attribute_name
+                                )
+                            )][] = $order_item_variation_value->attribute_value_name;
                         }
                     }
                 }
@@ -63,9 +69,7 @@ class Order extends JsonResource
                 if (isset($other_attributes['default'])) {
                     $order_item_variation_values['default'] = $other_attributes;
                 }
-
             }
-
 
 
             $order_item_variations = array_values($order_item_variation_values);
@@ -127,34 +131,34 @@ class Order extends JsonResource
             "comments" => $this->comments,
             "delivery_histories" => $this->deliveryHistory,
             "audits" => [
-                'CS' => $this->audits()->with('user')->get()->filter(function($item)
-                {
-                    if($item->tags == 'CS')
-                    {
-                        return $item;
+                'CS' => $this->audits()->with('user')->get()->filter(
+                    function ($item) {
+                        if ($item->tags == 'CS') {
+                            return $item;
+                        }
                     }
-                })->toArray(),
-                'Factory' => $this->audits()->with('user')->get()->filter(function($item)
-                {
-                    if($item->tags == 'Factory')
-                    {
-                        return true;
+                )->toArray(),
+                'Factory' => $this->audits()->with('user')->get()->filter(
+                    function ($item) {
+                        if ($item->tags == 'Factory') {
+                            return true;
+                        }
                     }
-                })->toArray(),
-                'WH' => $this->audits()->with('user')->get()->filter(function($item)
-                {
-                    if($item->tags == 'WH')
-                    {
-                        return true;
+                )->toArray(),
+                'WH' => $this->audits()->with('user')->get()->filter(
+                    function ($item) {
+                        if ($item->tags == 'WH') {
+                            return true;
+                        }
                     }
-                })->toArray(),
-                'Shop' => $this->audits()->with('user')->get()->filter(function($item)
-                {
-                    if($item->tags == 'Shop')
-                    {
-                        return true;
+                )->toArray(),
+                'Shop' => $this->audits()->with('user')->get()->filter(
+                    function ($item) {
+                        if ($item->tags == 'Shop') {
+                            return true;
+                        }
                     }
-                })->toArray()
+                )->toArray()
             ],
         ];
     }
