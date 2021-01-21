@@ -18,6 +18,7 @@ class Order extends JsonResource
 
         foreach ($this->items as $orderItem) {
             $order_item_variations = [];
+            $total_delivered_qty = 0;
             $order_item_variation_values = [];
             if ($orderItem->order_item_variations) {
                 $other_attributes = [];
@@ -35,6 +36,8 @@ class Order extends JsonResource
                                 )
                             )][] = $order_item_variation_value->attribute_value_name;
                         }
+
+                        $total_delivered_qty += $order_item_variation_value->delivered_qty;
                     }
                 }
 
@@ -79,7 +82,7 @@ class Order extends JsonResource
                 [
                     "id" => $orderItem->id,
                     "quantity" => $orderItem->quantity,
-                    "delivered_qty" => $orderItem->delivered_qty,
+                    "delivered_qty" => $total_delivered_qty,
                     "product_code" => $orderItem->product_code,
                     "product_title" => $orderItem->product_title,
                     "product_price" => $orderItem->product_price,
