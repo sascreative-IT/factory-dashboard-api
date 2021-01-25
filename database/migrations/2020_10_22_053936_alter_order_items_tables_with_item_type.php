@@ -21,7 +21,7 @@ class AlterOrderItemsTablesWithItemType extends Migration
                 $table->enum('supplier_status',['Received','Pending','Half Received','Completed'])->nullable();
                 $table->string('embellishment_supplier')->nullable();
                 $table->enum('embellishment_status',['Sent To Embellisher','Pending','Received','Half Received','Completed'])->nullable();
-                $table->enum('factory_status',['Half Received','Received','Completed'])->nullable();
+                $table->enum('factory_status',['Half Received','Received','Completed','Processing'])->nullable();
             }
         );
     }
