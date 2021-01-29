@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\OrderItem as OrderItemResource;
 use App\Http\Controllers\Controller;
+use App\Models\OrderItemVariationValue;
+use App\Models\OrderItemVariation;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
 {
-
     public function updateItemType(Request $request, $id)
     {
         OrderItem::find($id)->update(["item_type" => $request->item_type]);
@@ -28,6 +29,17 @@ class OrderItemController extends Controller
     public function updateSupplierStatus(Request $request, $itemId)
     {
         OrderItem::find($itemId)->update(["supplier_status" => $request->supplier_status]);
+        if ($request->supplier_status == 'Received') {
+            $order_item_variations = OrderItemVariation::where('order_item_id', $itemId)->get();
+            foreach ($order_item_variations as $order_item_variation) {
+                $order_item_variation_values = OrderItemVariationValue::where('order_item_variation_id', $order_item_variation->id)->get();
+                foreach ($order_item_variation_values as $order_item_variation_value) {
+                    $qty = $order_item_variation_value->qty;
+                    $order_item_variation_value->delivered_qty = $qty;
+                    $order_item_variation_value->save();
+                }
+            }
+        }
         return new OrderItemResource(OrderItem::find($itemId));
     }
 
@@ -54,5 +66,4 @@ class OrderItemController extends Controller
         OrderItem::find($itemId)->update(["delivered_qty" => $request->delivered_qty]);
         return new OrderItemResource(OrderItem::find($itemId));
     }
-
 }
