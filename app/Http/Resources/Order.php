@@ -75,7 +75,8 @@ class Order extends JsonResource
                     $order_item_variation_values['default'] = $other_attributes;
                 }
             }
-            
+
+           
 
             $order_item_variations = array_values($order_item_variation_values);
 
