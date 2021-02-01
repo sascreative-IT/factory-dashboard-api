@@ -78,7 +78,7 @@ class Order extends JsonResource
 
             // temp fixed
             if ($orderItem->factory_status == 'Received' || $orderItem->supplier_status = 'Received') {
-                $total_delivered_qty = $orderItem->qty;
+                $total_delivered_qty = $orderItem->quantity;
             }
             $order_item_variations = array_values($order_item_variation_values);
 
