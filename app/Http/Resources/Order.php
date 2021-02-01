@@ -24,7 +24,6 @@ class Order extends JsonResource
                 $other_attributes = [];
                 foreach ($orderItem->order_item_variations as $order_item_variation) {
                     $size_name = 'default';
-                    $variation_delivered_qty = 0;
                     foreach ($order_item_variation->order_item_variation_values as $order_item_variation_value) {
                         if ($order_item_variation_value->attribute_name == "Size") {
                             $size_name = $order_item_variation_value->attribute_value_name;
@@ -37,10 +36,10 @@ class Order extends JsonResource
                                 )
                             )][] = $order_item_variation_value->attribute_value_name;
                         }
-                        $variation_delivered_qty += $order_item_variation_value->delivered_qty;
-                    }
-                    if ($variation_delivered_qty>0) {
-                        $total_delivered_qty += $variation_delivered_qty;
+
+                        if (isset($order_item_variation_value->delivered_qty) && ($order_item_variation_value->delivered_qty >0)) {
+                            $total_delivered_qty += $order_item_variation_value->delivered_qty;
+                        }
                     }
                 }
 
@@ -77,6 +76,9 @@ class Order extends JsonResource
                 }
             }
 
+            if ($orderItem->factory_status == 'Received' || $orderItem->supplier_status = 'Received') {
+                $total_delivered_qty = $orderItem->qty;
+            }
 
             $order_item_variations = array_values($order_item_variation_values);
 
