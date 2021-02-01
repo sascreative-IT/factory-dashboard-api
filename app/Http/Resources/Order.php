@@ -75,10 +75,7 @@ class Order extends JsonResource
                     $order_item_variation_values['default'] = $other_attributes;
                 }
             }
-
-            if ($orderItem->factory_status == 'Received' || $orderItem->supplier_status = 'Received') {
-                $total_delivered_qty = $orderItem->qty;
-            }
+            
 
             $order_item_variations = array_values($order_item_variation_values);
 
