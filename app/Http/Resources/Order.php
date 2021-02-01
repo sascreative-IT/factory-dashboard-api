@@ -77,11 +77,11 @@ class Order extends JsonResource
             }
 
             // temp fixed
-            if ($orderItem->item_type == 'Factory' && $orderItem->factory_status = 'Received') {
+            if ($orderItem->item_type == 'Factory' && $orderItem->factory_status == 'Received') {
                 $total_delivered_qty = $orderItem->quantity;
             }
 
-            if ($orderItem->item_type == 'Local' && $orderItem->supplier_status = 'Received') {
+            if ($orderItem->item_type == 'Local' && $orderItem->supplier_status == 'Received') {
                 $total_delivered_qty = $orderItem->quantity;
             }
 
