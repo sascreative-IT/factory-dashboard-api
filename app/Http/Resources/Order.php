@@ -36,10 +36,9 @@ class Order extends JsonResource
                                 )
                             )][] = $order_item_variation_value->attribute_value_name;
                         }
-
-                        if (isset($order_item_variation_value->delivered_qty) && ($order_item_variation_value->delivered_qty >0)) {
-                            $total_delivered_qty += $order_item_variation_value->delivered_qty;
-                        }
+                    }
+                    if (isset($order_item_variation_value->delivered_qty) && ($order_item_variation_value->delivered_qty >0)) {
+                        $total_delivered_qty += $order_item_variation_value->delivered_qty;
                     }
                 }
 
