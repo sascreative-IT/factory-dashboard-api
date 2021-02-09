@@ -17,11 +17,11 @@ class PackingListController extends Controller
         $packingList = $objGeneratePackingList->generateDoc();
         $file_name = $merch_order_id . ".docx";
         try {
-            $packingList->save(storage_path($file_name));
+            $packingList->save(storage_path("packing-list/".$file_name));
         } catch (Exception $e) {
             dd($e);
         }
 
-        return response()->download(storage_path($file_name));
+        return response()->download(storage_path("packing-list/".$file_name));
     }
 }
