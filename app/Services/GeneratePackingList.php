@@ -16,19 +16,35 @@ class GeneratePackingList
 
     private $order;
 
+    private $defaultTableStyle = [];
 
-    public function __construct(\App\Http\Resources\Order $order)
+    private $section;
+
+    public function __construct($order = [])
     {
         $languageEnGb = new Language(Language::EN_GB);
         $this->phpWord = new PhpWord();
         $this->phpWord->getSettings()->setThemeFontLang($languageEnGb);
         $this->order = $order;
+        $this->defaultTableStyle = [
+            'borderSize' => 6,
+            'borderColor' => '000e14',
+            'cellMargin' => 80,
+            'alignment' => JcTable::CENTER,
+            'cellSpacing' => 50
+        ];
     }
 
-    private function addHeader(): Section
+    private function addHeaderSection()
     {
-        $section = $this->phpWord->addSection(['pageSizeW'=>true]);
-        $table = $section->addTable(['alignment' => JcTable::START,'width' => 50 * 50, 'unit' => 'pct']);
+        $this->section = $this->phpWord->addSection(['pageSizeW' => true]);
+        $table = $this->section
+            ->addTable(
+                [
+                    'alignment' => JcTable::START,
+                    'width' => 50 * 50,
+                    'unit' => 'pct'
+                ]);
         $width = 8000;
         $table->addRow();
         $table
@@ -47,27 +63,25 @@ class GeneratePackingList
                 [
                     'alignment' => JcTable::END
                 ]);
-        return $section;
     }
 
-    private function addSubHeader($section)
+    private function addSubHeaderSection()
     {
-       // $section = $this->phpWord->addSection();
         $tableDefaultWidth = 12000;
         $cellDefaultWidth = 6000;
 
-        $section->addLine();
-        $section->addText("PACKING LIST",['bold' => true,'size' => 22],['alignment' => JcTable::CENTER]);
-        $section->addLine();
-        $table = $section->addTable(['alignment' => JcTable::START,'width' => $tableDefaultWidth]);
+        $this->section->addLine();
+        $this->section->addText("PACKING LIST", ['bold' => true, 'size' => 22], ['alignment' => JcTable::CENTER]);
+        $this->section->addLine();
+        $table = $this->section->addTable(['alignment' => JcTable::START, 'width' => $tableDefaultWidth]);
         $table->addRow();
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("Deliver to:",['bold' => true,'size' => 12]);
+            ->addText("Deliver to:", ['bold' => true, 'size' => 12]);
 
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("Order Number : ".$this->order->merch_order_id,[],['alignment' => JcTable::END]);
+            ->addText("Order Number : " . $this->order['merch_order_id'], [], ['alignment' => JcTable::END]);
 
         $table->addRow();
         $table
@@ -76,7 +90,7 @@ class GeneratePackingList
 
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("Delivery Date : ".Carbon::createFromFormat('Y-m-d H:i:s', $this->order->delivery_date)->format('dS F y'),[],['alignment' => JcTable::END]);
+            ->addText("Delivery Date : " . Carbon::createFromFormat('Y-m-d H:i:s', $this->order['delivery_date'])->format('dS F y'), [], ['alignment' => JcTable::END]);
 
         $table->addRow();
         $table
@@ -84,15 +98,83 @@ class GeneratePackingList
 
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("Delivered Boxes : ".$this->order->no_of_boxes_delivered,[],['alignment' => JcTable::END]);
+            ->addText("Delivered Boxes : " . $this->order['no_of_boxes_delivered'], [], ['alignment' => JcTable::END]);
+
+    }
+
+    private function addItemHeaderSection()
+    {
+        $tableHeaderStyle = ['size' => 11];
+        $this->section->addLine();
+
+        $table = $this->section->addTable($this->defaultTableStyle);
+        $table->addRow();
+        $table
+            ->addCell(4500)
+            ->addText("Product Code", $tableHeaderStyle);
+
+        $table
+            ->addCell(4000)
+            ->addText("Product Name", $tableHeaderStyle);
+
+        $table
+            ->addCell(1300)
+            ->addText("QTY", $tableHeaderStyle);
+
+        $table
+            ->addCell(2300)
+            ->addText("Delivered QTY", $tableHeaderStyle);
+
+        return $table;
+    }
+
+    private function addItemBodySection($table)
+    {
+        $orderItems = $this->order['items'];
+        if (isset($orderItems)) {
+            foreach ($orderItems as $orderItem) {
+                $table->addRow();
+                $table->addCell(4500)->addText($orderItem['product_code']);
+                $table->addCell(4000)->addText($orderItem['product_title']);
+                $table->addCell(1300)->addText($orderItem['quantity']);
+                $table->addCell(2300)->addText($orderItem['delivered_qty']);
+                $table->addRow();
+
+                if (isset($orderItem['order_item_variations'])) {
+                    $variation_str = "";
+                    foreach ($orderItem['order_item_variations'] as $variations) {
+                        $variation_str .= $variations['attribute_name'] . " : ";
+                        $variation_str .= $variations['attribute_value_name'];
+
+                        if (isset($variations['other_attributes'])) {
+                            $variation_str .= ",";
+                            foreach ($variations['other_attributes'] as $key => $values) {
+                                $variation_str .= ucwords(str_replace("_", " ", $key)) . " : ";
+                                $variation_str .= implode(",", $values);
+                            }
+
+                        }
+
+                        $variation_str .= " , Qty : " . $variations['qty'];
+                        $variation_str .= " , Delivered Qty : " . $variations['delivered_qty'];
+                        $variation_str .= "\n\n";
+                    }
+
+                    $table->addCell(null, ['gridSpan' => 4])
+                        ->addText($variation_str);
+                }
+            }
+        }
 
 
     }
 
     public function generateDoc(): PhpWord
     {
-        $section = $this->addHeader();
-        $this->addSubHeader($section);
+        $section = $this->addHeaderSection();
+        $section = $this->addSubHeaderSection($section);
+        $table = $this->addItemHeaderSection($section);
+        $this->addItemBodySection($table);
         return $this->phpWord;
     }
 }

@@ -12,7 +12,7 @@ class PackingListController extends Controller
 {
     public function __invoke($merch_order_id)
     {
-        $order = new OrderResource(Order::with('items')->where("merch_order_id", $merch_order_id)->first());
+        $order = (new OrderResource(Order::with('items', 'comments')->where("merch_order_id", $merch_order_id)->first()))->resolve();
         $objGeneratePackingList = new GeneratePackingList($order);
         $packingList = $objGeneratePackingList->generateDoc();
         $file_name = $merch_order_id . ".docx";
