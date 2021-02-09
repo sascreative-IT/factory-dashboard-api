@@ -50,7 +50,7 @@ class GeneratePackingList
         $table
             ->addCell($width)
             ->addImage(
-                "http://factory-dashboard-api.test/sas-address.png",
+                "https://backend.sas.co.nz/sas-address.png",
                 [
                     'width' => 150,
                     'height' => 150,
@@ -59,7 +59,7 @@ class GeneratePackingList
 
         $table
             ->addCell('4000')
-            ->addImage("http://factory-dashboard-api.test/packing-list.png",
+            ->addImage("https://backend.sas.co.nz/packing-list.png",
                 [
                     'alignment' => JcTable::END
                 ]);
@@ -86,7 +86,7 @@ class GeneratePackingList
         $table->addRow();
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("6 Forbes McCammon Drive, Swanson, Auckland");
+            ->addText($this->order['shipping_address']);
 
         $table
             ->addCell($cellDefaultWidth)
