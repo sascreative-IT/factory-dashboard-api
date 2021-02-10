@@ -70,9 +70,9 @@ class GeneratePackingList
         $tableDefaultWidth = 12000;
         $cellDefaultWidth = 6000;
 
-        $this->section->addLine();
+        //$this->section->addLine();
         $this->section->addText("PACKING LIST", ['bold' => true, 'size' => 22], ['alignment' => JcTable::CENTER]);
-        $this->section->addLine();
+        //$this->section->addLine();
         $table = $this->section->addTable(['alignment' => JcTable::START, 'width' => $tableDefaultWidth]);
         $table->addRow();
         $table
@@ -81,30 +81,28 @@ class GeneratePackingList
 
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("Order Number : " . $this->order['merch_order_id'], [], ['alignment' => JcTable::END]);
+            ->addText("Order Number : " . $this->order['merch_order_id'], ['bold' => true, 'size' => 12], ['alignment' => JcTable::END]);
 
         $table->addRow();
         $table
             ->addCell($cellDefaultWidth)
-            ->addText($this->order['shipping_address']);
+            ->addText($this->order['customer_name'] . "\n" . $this->order['shipping_address']);
 
         $table
             ->addCell($cellDefaultWidth)
-            ->addText("Delivery Date : " . Carbon::createFromFormat('Y-m-d H:i:s', $this->order['delivery_date'])->format('dS F y'), [], ['alignment' => JcTable::END]);
-
-        $table->addRow();
-        $table
-            ->addCell($cellDefaultWidth);
-
-        $table
-            ->addCell($cellDefaultWidth)
-            ->addText("Delivered Boxes : " . $this->order['no_of_boxes_delivered'], [], ['alignment' => JcTable::END]);
+            ->addText(
+                "Delivery Date : " . Carbon::createFromFormat('Y-m-d H:i:s', $this->order['delivery_date'])->format('dS F Y')
+                . "\n"
+                . "Delivered Boxes : " . $this->order['no_of_boxes_delivered'],
+                [],
+                ['alignment' => JcTable::END]
+            );
 
     }
 
     private function addItemHeaderSection()
     {
-        $tableHeaderStyle = ['size' => 11];
+        $tableHeaderStyle = ['size' => 11, 'bold' => true,];
         $this->section->addLine();
 
         $table = $this->section->addTable($this->defaultTableStyle);
@@ -142,12 +140,15 @@ class GeneratePackingList
 
                 if (isset($orderItem['order_item_variations'])) {
                     $variation_str = "";
-                    foreach ($orderItem['order_item_variations'] as $variations) {
+                    foreach ($orderItem['order_item_variations'] as $index => $variations) {
+                        if ($index > 0) {
+                            $variation_str .= "\n";
+                        }
                         $variation_str .= $variations['attribute_name'] . " : ";
                         $variation_str .= $variations['attribute_value_name'];
 
                         if (isset($variations['other_attributes'])) {
-                            $variation_str .= ",";
+                            $variation_str .= " / ";
                             foreach ($variations['other_attributes'] as $key => $values) {
                                 $variation_str .= ucwords(str_replace("_", " ", $key)) . " : ";
                                 $variation_str .= implode(",", $values);
@@ -155,9 +156,8 @@ class GeneratePackingList
 
                         }
 
-                        $variation_str .= " , Qty : " . $variations['qty'];
-                        $variation_str .= " , Delivered Qty : " . $variations['delivered_qty'];
-                        $variation_str .= "\n\n";
+                        $variation_str .= " / Qty : " . $variations['qty'];
+                        $variation_str .= " / Delivered Qty : " . $variations['delivered_qty'];
                     }
 
                     $table->addCell(null, ['gridSpan' => 4])
