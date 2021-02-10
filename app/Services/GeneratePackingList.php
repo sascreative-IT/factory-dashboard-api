@@ -144,20 +144,21 @@ class GeneratePackingList
                         if ($index > 0) {
                             $variation_str .= "\n";
                         }
-                        $variation_str .= $variations['attribute_name'] . " : ";
-                        $variation_str .= $variations['attribute_value_name'];
+                        if (isset($variations['attribute_name'])) {
+                            $variation_str .= $variations['attribute_name'] . " : ";
+                            $variation_str .= $variations['attribute_value_name'];
 
-                        if (isset($variations['other_attributes'])) {
-                            $variation_str .= " / ";
-                            foreach ($variations['other_attributes'] as $key => $values) {
-                                $variation_str .= ucwords(str_replace("_", " ", $key)) . " : ";
-                                $variation_str .= implode(",", $values);
+                            if (isset($variations['other_attributes'])) {
+                                $variation_str .= " / ";
+                                foreach ($variations['other_attributes'] as $key => $values) {
+                                    $variation_str .= ucwords(str_replace("_", " ", $key)) . " : ";
+                                    $variation_str .= implode(",", $values);
+                                }
+
                             }
-
+                            $variation_str .= " / Qty : " . $variations['qty'];
+                            $variation_str .= " / Delivered Qty : " . $variations['delivered_qty'];
                         }
-
-                        $variation_str .= " / Qty : " . $variations['qty'];
-                        $variation_str .= " / Delivered Qty : " . $variations['delivered_qty'];
                     }
 
                     $table->addCell(null, ['gridSpan' => 4])
