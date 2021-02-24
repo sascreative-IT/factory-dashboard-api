@@ -101,8 +101,13 @@ class OrderController extends Controller
         if ($enabled_for_warehouse == 'Yes') {
             if (config('mail.order_enabled_notification') == 'Yes') {
                 if (auth()->user()) {
-                    $userEmail = auth()->user();
-                    $userEmail->notify(new EnabledForWarehouseNotification(['merch_order_id' => $order->merch_order_id]));
+                    $user = auth()->user();
+                    $user->notify(new EnabledForWarehouseNotification(
+                        [
+                            'merch_order_id' => $order->merch_order_id,
+                            'name' => $user->name,
+                            'email' => $user->email
+                        ]));
                 }
             }
         }
