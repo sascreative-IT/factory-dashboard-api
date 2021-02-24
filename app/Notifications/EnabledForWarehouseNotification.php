@@ -24,6 +24,12 @@ class EnabledForWarehouseNotification extends Notification
         }
 
         $emails = User::where('department', 'WH')->pluck('email')->toArray();
+        $excludeEmails = explode(',', config('mail.order_enabled_excluded_emails'));
+        foreach ($excludeEmails as $exEmail) {
+            if (($key = array_search($exEmail, $emails)) !== false) {
+                unset($emails[$key]);
+            }
+        }
         $this->notificationCC = $emails;
     }
 
