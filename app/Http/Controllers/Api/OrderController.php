@@ -10,6 +10,7 @@ use App\Http\Resources\OrderCollection;
 use App\Models\Order;
 use App\Models\OrderComments;
 use App\Models\OrderDeliveryHistory;
+use App\Notifications\EnabledForWarehouseNotification;
 use Illuminate\Http\Request;
 use App\Http\Resources\Comment as CommentResource;
 use Illuminate\Http\Response;
@@ -97,6 +98,19 @@ class OrderController extends Controller
         $order->update(
             ['enabled_for_warehouse' => $enabled_for_warehouse]
         );
+        if ($enabled_for_warehouse == 'Yes') {
+            if (config('mail.order_enabled_notification') == 'Yes') {
+                if (auth()->user()) {
+                    $user = auth()->user();
+                    $user->notify(new EnabledForWarehouseNotification(
+                        [
+                            'merch_order_id' => $order->merch_order_id,
+                            'name' => $user->name,
+                            'email' => $user->email
+                        ]));
+                }
+            }
+        }
         return new OrderResource($order);
     }
 
