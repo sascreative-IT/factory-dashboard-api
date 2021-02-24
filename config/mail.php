@@ -14,6 +14,8 @@ return [
     */
 
     'default' => env('MAIL_MAILER', 'smtp'),
+    'notification_bcc' => env('EMAIL_BCC', 'iynga@sas.co.nz'),
+    'order_enabled_notification' => env('ORDER_ENABLED_NOTIFICATION', 'No'),
 
     /*
     |--------------------------------------------------------------------------
