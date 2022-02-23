@@ -54,6 +54,32 @@ class ResetUserPassword extends Command
             $this->info("The user account has been created successfully");
             $this->info("The password is : $userPassword");
             $this->info("\n");
+        } else {
+            $name = $this->ask('What is the name of the user ?');
+            $userPassword = $this->_generatePassword();
+            $department = $this->choice(
+                "Choose a department ?",
+                ['CS', 'Factory', 'WH', 'Shop','Administrator'],
+                0,
+                $maxAttempts = null,
+                $allowMultipleSelections = false
+            );
+            $user = User::create(
+                [
+                    'name' => $name,
+                    'email' => $email,
+                    'email_verified_at' => now(),
+                    'department' => $department,
+                    'password' => $userPassword,
+                    'remember_token' => Str::random(10),
+                ]
+            );
+            if ($user) {
+                $this->info("\n");
+                $this->info("The user account has been created successfully");
+                $this->info("The password is : $userPassword");
+                $this->info("\n");
+            }
         }
         return 0;
     }
