@@ -53,6 +53,7 @@ class ResetUserPassword extends Command
             $this->info("\n");
             $this->info("The user account has been created successfully");
             $this->info("The password is : $userPassword");
+            $this->info("The department is : $user->department");
             $this->info("\n");
         } else {
             $name = $this->ask('What is the name of the user ?');
