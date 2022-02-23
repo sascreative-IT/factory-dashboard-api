@@ -88,7 +88,7 @@ class ResetUserPassword extends Command
     private function _generatePassword($length = 12)
     {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' .
-            '0123456789-=~!@#$^&*()_+<>?[]{}|';
+            '0123456789';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
