@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use Carbon\Carbon;
@@ -23,6 +24,7 @@ class GeneratePackingList
         $languageEnGb = new Language(Language::EN_GB);
         $this->phpWord = new PhpWord();
         $this->phpWord->getSettings()->setThemeFontLang($languageEnGb);
+        $this->phpWord->getSettings()->setZipClass(Settings::PCLZIP);
         $this->order = $order;
         $this->defaultTableStyle = [
             'borderSize' => 6,
