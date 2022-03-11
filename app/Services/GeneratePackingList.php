@@ -3,11 +3,9 @@
 
 namespace App\Services;
 
-use App\Models\Order;
 use PhpOffice\PhpWord\PhpWord;
-//use PhpOffice\PhpWord\Style\Language;
+use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\SimpleType\JcTable;
-use PhpOffice\PhpWord\Element\Section;
 use Carbon\Carbon;
 
 class GeneratePackingList
@@ -22,9 +20,9 @@ class GeneratePackingList
 
     public function __construct($order = [])
     {
-        //$languageEnGb = new Language(Language::EN_GB);
+        $languageEnGb = new Language(Language::EN_GB);
         $this->phpWord = new PhpWord();
-        //$this->phpWord->getSettings()->setThemeFontLang($languageEnGb);
+        $this->phpWord->getSettings()->setThemeFontLang($languageEnGb);
         $this->order = $order;
         $this->defaultTableStyle = [
             'borderSize' => 6,
