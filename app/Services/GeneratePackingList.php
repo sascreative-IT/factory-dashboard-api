@@ -24,7 +24,7 @@ class GeneratePackingList
         $languageEnGb = new Language(Language::EN_GB);
         $this->phpWord = new PhpWord();
         $this->phpWord->getSettings()->setThemeFontLang($languageEnGb);
-        $this->phpWord->getSettings()->setZipClass(Settings::PCLZIP);
+        \PhpOffice\PhpWord\Settings::setZipClass(Settings::PCLZIP);
         $this->order = $order;
         $this->defaultTableStyle = [
             'borderSize' => 6,
