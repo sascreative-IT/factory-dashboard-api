@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use Carbon\Carbon;
@@ -170,6 +171,7 @@ class GeneratePackingList
 
     public function generateDoc(): PhpWord
     {
+        Settings::setZipClass(Settings::PCLZIP);
         $section = $this->addHeaderSection();
         $section = $this->addSubHeaderSection($section);
         $table = $this->addItemHeaderSection($section);
